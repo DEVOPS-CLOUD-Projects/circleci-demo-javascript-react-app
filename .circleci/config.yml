@@ -30,9 +30,10 @@ jobs:
       - attach_workspace:
           at: ~/project
       - aws-cli/setup:
+          profile-name: "default"
           aws-access-key-id: $AWS_ACCESS_KEY_ID
           aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-          region: $AWS_DEFAULT_REGION    
+          aws-region: $AWS_DEFAULT_REGION
       - setup_remote_docker:
           version: 20.10.7
       - run:
@@ -48,7 +49,6 @@ jobs:
             docker tag circleci-demo:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/circleci-demo:latest
             docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/circleci-demo:latest
 
-
 workflows:
   version: 2
   build_and_deploy:
@@ -57,6 +57,7 @@ workflows:
       - build_and_push_docker:
           requires:
             - build_and_test
+
 
 
 
