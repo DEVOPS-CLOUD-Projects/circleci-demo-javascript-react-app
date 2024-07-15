@@ -29,11 +29,13 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/project
-      - aws-cli/setup:
-          profile-name: "default"
-          aws-access-key-id: $AWS_ACCESS_KEY_ID
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-          aws-region: $AWS_DEFAULT_REGION
+      - aws-cli/install
+      - run:
+          name: Configure AWS CLI
+          command: |
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws configure set default.region $AWS_DEFAULT_REGION
       - setup_remote_docker:
           version: 20.10.7
       - run:
